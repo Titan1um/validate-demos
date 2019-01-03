@@ -16,7 +16,7 @@ import live.validate.jun.service.Validator;
 @CrossOrigin
 public class IsAController {
 	
-	@GetMapping(value = "/selfDefine",produces = "application/json;charset=UTF-8")
+	@GetMapping(value = "/selfDefine")
 	@ResponseBody
 	public String selfDefine(HttpServletRequest req) {
 		System.out.println("sd");
