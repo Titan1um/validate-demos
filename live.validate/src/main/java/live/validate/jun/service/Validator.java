@@ -5,81 +5,107 @@ import java.nio.charset.Charset;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import org.json.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.json.JSONObject;
 
 public class Validator {
-	private static String ts = null;
-	private static String userid = null;
-	private static String id = null;
-	private static String secretkey = null;//两种验证方式secretkey不同，故有两个init版本
-	private static String token = null;
-	private static String sign = null;
-	private static String nickname = "Ti";
-	private static String url = null;
-	private static String marqueeName = "test";
-	private static String avatar = "http://live.polyv.net/assets/images/avatars/9avatar.jpg";
-	private static int status = 1;
-	
-	
-	
-	public static String getSDCallBack(HttpServletRequest req) {
+	private String ts = null;
+	private String userid = null;
+	private String id = null;
+	private String secretkey = null;// 两种验证方式secretkey不同，故有两个init版本
+	private String token = null;
+	private String sign = null;
+	private String nickname = "Ti";
+	private String url = null;
+	private String marqueeName = "test";
+	private String avatar = "http://live.polyv.net/assets/images/avatars/9avatar.jpg";
+	private int status = 1;
+
+	public String getSDCallBack(HttpServletRequest req) {
 		initSD(req);
-		JSONObject json = new JSONObject();
 		ts = String.valueOf(System.currentTimeMillis());
-		if(sign == token) {
+		//test
+		System.out.println("========inside sd========");
+		System.out.println("sign:"+sign);
+		System.out.println("token:"+token);
+		//test
+		if (sign.equals(token)) {
 			String tmp = secretkey + id + secretkey + ts + secretkey + userid;
 			sign = DigestUtils.md5Hex(tmp.getBytes(Charset.forName("UTF-8")));
-			String res = url + "?userid=" + userid + "&nickname=" + nickname + "&marqueeName=" +
-			marqueeName + "&avatar=" + avatar + "&ts=" + ts + "&sign=" + sign; 
+			String res = url + "?userid=" + userid + "&nickname=" + nickname + "&marqueeName=" + marqueeName
+					+ "&avatar=" + avatar + "&ts=" + ts + "&sign=" + sign;
+			System.out.println("res:"+res);
 			String finalRes = "<script language='javascript' type='text/javascript'>location.href='"+res+"'</script>";
 			System.out.println("finalRes:"+finalRes);
 			return finalRes;
 		}
-		return null;
+		System.out.println("error");
+		return "error";
 	}
-	
-	public static String getOVCallBack(HttpServletRequest req) {
+
+	public String getOVCallBack(HttpServletRequest req) {
 		initOV(req);
 		JSONObject json = new JSONObject();
-		if(sign != token) {
-			json.put("status",0);
+		//test
+		ts = String.valueOf(System.currentTimeMillis());
+		System.out.println("========inside sd========");
+		System.out.println("sign:"+sign);
+		System.out.println("token:"+token);
+		//test
+		if (!sign.equals(token)) {
+			json.put("status", 0);
 			json.put("errorUrl", "http://www.baidu.com");
-		}
-		else {
+		} else {
 			json.put("status", 1);
 			json.put("userid", userid);
 			json.put("nickname", nickname);
 			json.put("avatar", avatar);
-			System.out.println(json.toString());
+			//test
+			System.out.println(json);
 			return json.toString();
 		}
-		System.out.println(json.toString());
+		//test
+		System.out.println(json);
 		return json.toString();
 	}
-	
-	public static void initOV(HttpServletRequest req) {
+
+	public void initOV(HttpServletRequest req) {
+		System.out.println("========inside initOV========");
 		secretkey = "em31gCSY1h";
+		System.out.println("set secretkey:"+secretkey);
 		token = req.getParameter("token");
+		System.out.println("set token:"+token);
 		ts = req.getParameter("ts");
+		System.out.println("set ts:"+ts);
 		userid = req.getParameter("userid");
-		String plain = secretkey+userid+secretkey+ts;
-		System.out.println("plain:"+plain);
+		System.out.println("set userid:"+userid);
+		String plain = secretkey + userid + secretkey + ts;
+		System.out.println("set plain:"+plain);
 		sign = DigestUtils.md5Hex(plain.getBytes(Charset.forName("UTF-8")));
-		System.out.println("sign:"+sign);
+		System.out.println("set sign:"+sign);
 	}
-	public static void initSD(HttpServletRequest req) {
+
+	public void initSD(HttpServletRequest req) {
+		System.out.println("========inside initSD========");
 		secretkey = "KWWXssNYBK";
+		System.out.println("set secretkey:"+secretkey);
 		sign = req.getParameter("sign");
+		System.out.println("set sign:"+sign);
 		ts = req.getParameter("ts");
+		System.out.println("set ts:"+ts);
 		id = req.getParameter("id");
+		System.out.println("set id:"+id);
 		url = req.getParameter("url");
+		System.out.println("set url:"+url);
 		userid = "eciyhturt8";
-		String plain = secretkey+id+secretkey+ts;
+		System.out.println("set userid:"+userid);
+		String plain = secretkey + id + secretkey + ts;
+		System.out.println("set plain:"+plain);
 		token = DigestUtils.md5Hex(plain.getBytes(Charset.forName("UTF-8")));
+		System.out.println("set token:"+token);
 	}
 	
-	public static void execute(ServletRequest request, ServletResponse response) throws Exception {
+	public String execute(ServletRequest request, ServletResponse response) throws Exception {
         try {
         	secretkey = "em31gCSY1h";
             String userid = request.getParameter("userid"); //保利威传递的userid
@@ -110,5 +136,6 @@ public class Validator {
 
         } catch (Exception e) {
         }
+        return null;
     }
 }
