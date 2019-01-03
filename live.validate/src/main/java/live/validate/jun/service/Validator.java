@@ -48,7 +48,7 @@ public class Validator {
 		JSONObject json = new JSONObject();
 		//test
 		ts = String.valueOf(System.currentTimeMillis());
-		System.out.println("========inside sd========");
+		System.out.println("========inside ov========");
 		System.out.println("sign:"+sign);
 		System.out.println("token:"+token);
 		//test
