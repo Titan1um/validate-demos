@@ -34,7 +34,7 @@ public class IsAController {
 	@ResponseBody
 	public String outerValidateTest(ServletRequest req,ServletResponse resp) throws Exception {
 		System.out.println("ov");
-		return new Validator().execute(req, resp);
+		return new Validator().outerValidate(req, resp);
 	}
 	
 }

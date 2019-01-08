@@ -105,7 +105,7 @@ public class Validator {
 		System.out.println("set token:"+token);
 	}
 	
-	public String execute(ServletRequest request, ServletResponse response) throws Exception {
+	public String outerValidate(ServletRequest request, ServletResponse response) throws Exception {
         try {
         	secretkey = "em31gCSY1h";
             String userid = request.getParameter("userid"); //保利威传递的userid

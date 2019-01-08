@@ -1070,3 +1070,4 @@ polyv-java-sdk-master/bin/com/polyv/sdk/test/Tester.class
 java-live-sdk-master/src/main/java/com/polyv/live/bean/request/channel/PLChannelRecordFileMergeRequest.java
 java-live-sdk-master/bin/src/main/java/com/polyv/live/bean/result/user/PLUserDurationsGetResult.class
 .metadata/
+/.recommenders/
